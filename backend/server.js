@@ -91,7 +91,7 @@ app.use((req, res, next) => {
 async function startServer() {
   try {
     // Initialize database
-    // await initializeDatabase();
+    await initializeDatabase();
 
     // Start server
     app.listen(PORT, () => {
