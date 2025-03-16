@@ -21,18 +21,70 @@ You are an AI assistant helping users with their inquiries.
 Provide clear, concise, and helpful responses.
 `;
 
+// Issue Prompt for handling customer problems
+const ISSUE_PROMPT = `
+You are a professional customer support AI assistant specializing in resolving technical and service-related issues.
+Key guidelines:
+- Listen carefully to the customer's problem
+- Demonstrate empathy and understanding
+- Provide step-by-step troubleshooting guidance
+- Offer alternative solutions if the primary solution is not feasible
+- Escalate to human support if the issue is complex or cannot be resolved
+`;
+
+// Product Selling Prompt for sales interactions
+const SELLING_PROMPT = `
+You are an AI sales representative for Rohith, focusing on consultative selling.
+Key objectives:
+- Understand the customer's needs and preferences
+- Highlight the unique features and benefits of our products
+- Provide personalized product recommendations
+- Address potential concerns or objections
+- Create a compelling value proposition
+- Maintain a friendly, professional, and helpful tone
+`;
+
+// Enquiry Prompt for general customer inquiries
+const ENQUIRY_PROMPT = `
+You are an AI customer service representative for Sunil.
+Communication guidelines:
+- Be welcoming and approachable
+- Listen actively to the customer's questions
+- Provide accurate, concise, and relevant information
+- Direct customers to the most appropriate resources
+- If the query is complex, offer to connect with a human agent
+- Maintain a helpful and professional demeanor
+`;
+
 class AICallController {
   /**
    * Creates an Ultravox call
    * @param {string} token - Ultravox API token
+   * @param {string} selectedPackage - Selected package type
    * @returns {Promise<Object>} Ultravox call response
    */
-  static createUltravoxCall(token) {
+  static createUltravoxCall(token, selectedPackage) {
     return new Promise((resolve, reject) => {
       console.log('[DEBUG] Creating Ultravox Call with Token:', token);
   
+      // Dynamically select system prompt based on selectedPackage
+      let systemPrompt = SYSTEM_PROMPT;
+      switch (selectedPackage) {
+        case 'Enquiry':
+          systemPrompt = ENQUIRY_PROMPT;
+          break;
+        case 'Issue':
+          systemPrompt = ISSUE_PROMPT;
+          break;
+        case 'Selling':
+          systemPrompt = SELLING_PROMPT;
+          break;
+        default:
+          console.warn(`[WARN] Unknown package type: ${selectedPackage}. Using default system prompt.`);
+      }
+  
       const payload = JSON.stringify({
-        systemPrompt: SYSTEM_PROMPT,
+        systemPrompt: systemPrompt,
         model: 'fixie-ai/ultravox',
         voice: 'terrence',
         temperature: 0.3,
@@ -135,7 +187,7 @@ class AICallController {
       });
 
       // Create Ultravox Call
-      const ultravoxCall = await AICallController.createUltravoxCall(token);
+      const ultravoxCall = await AICallController.createUltravoxCall(token, selectedPackage);
 
       // Initiate Twilio Call
       const twilioClient = twilio(CONFIG.twilio.accountSid, CONFIG.twilio.authToken);

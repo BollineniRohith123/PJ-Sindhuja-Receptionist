@@ -5,11 +5,9 @@ import PhoneInput from "@/components/PhoneInput";
 import CustomSelect, { SelectOption } from "@/components/CustomSelect";
 
 const packageOptions: SelectOption[] = [
-  { value: "basic", label: "Basic Pack", description: "60+ channels • ₹299/month" },
-  { value: "premium", label: "Premium Pack", description: "90+ channels • ₹399/month" },
-  { value: "ultra", label: "Ultra HD Pack", description: "120+ channels • ₹599/month" },
-  { value: "sports", label: "Sports Special", description: "All sports channels • ₹499/month" },
-  { value: "movies", label: "Movies Pack", description: "Premium movie channels • ₹449/month" },
+  { value: "Enquiry", label: "Enquiry", description: "Enquiry" },
+  { value: "Issue", label: "Issue", description: "Issue" },
+  { value: "Selling", label: "Selling", description: "Selling" },
 ];
 
 const HeroSection: React.FC = () => {
